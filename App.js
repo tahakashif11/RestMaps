@@ -18,14 +18,13 @@ const App = () => {
       (error) => {
         console.error(error);
       },
-      
     );
   };
   const [markerCoordinate, setMarkerCoordinate] = useState({
     latitude: 33.7181431,
     longitude: 73.026183
   });
-
+  const [searchQuery, setSearchQuery] = useState(''); 
   const [newLatitude, setNewLatitude] = useState('');
   const [newLongitude, setNewLongitude] = useState('');
   const [cafes, setCafes] = useState([]);
@@ -51,9 +50,31 @@ const App = () => {
       console.error('Invalid latitude or longitude');
     }
   };
+  const searchPlaces = async () => {
+    try {
+      const latitude = parseFloat(newLatitude);
+      const longitude = parseFloat(newLongitude);
+  
+      if (!isNaN(latitude) && !isNaN(longitude)) {
+        
+        setMarkerCoordinate({ latitude, longitude });
+  
+        
+        const newCafes = await fetchCafes(latitude, longitude, 15000);
+        setCafes(newCafes);
+      } else {
+        console.error('Invalid latitude or longitude');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+     
+     
         <MapComponent
           markerCoordinate={markerCoordinate}
           handleMarkerDragEnd={handleMarkerDragEnd}
@@ -72,6 +93,8 @@ const App = () => {
         <Button title="Update Marker" onPress={updateMarkerCoordinates} />
         <Button title="Update location" onPress={getCurrentLocation} />
         <CafeListComponent cafes={cafes} /> 
+        <Button title="Search Places" onPress={searchPlaces} />
+
       </View>
     </SafeAreaView>
   );

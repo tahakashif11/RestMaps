@@ -3,14 +3,22 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 const CafeListComponent = ({ cafes }) => (
   <View style={styles.container}>
-    <Text style={styles.cafeListHeader}>Nearby Cafes:</Text>
+    <Text style={styles.cafeListHeader}>Explore Nearby Cafes</Text>
     <FlatList
       data={cafes}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <View style={styles.cafeListItem}>
           <Text style={styles.cafeName}>{item.name}</Text>
-          <Text style={styles.cafeLocation}>{`Lat: ${item.latitude}, Long: ${item.longitude}`}</Text>
+          <View style={styles.locationContainer}>
+            <Text style={styles.locationLabel}>Latitude:</Text>
+            <Text style={styles.cafeLocation}>{item.latitude}</Text>
+          </View>
+          <View style={styles.locationContainer}>
+            <Text style={styles.locationLabel}>Longitude:</Text>
+            <Text style={styles.cafeLocation}>{item.longitude}</Text>
+          </View>
+          
         </View>
       )}
     />
@@ -21,23 +29,38 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: '#f2f2f2',
   },
   cafeListHeader: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginVertical: 16,
+    color: '#333',
+    textAlign: 'center',
   },
   cafeListItem: {
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    padding: 10,
+    borderBottomColor: '#ddd',
+    padding: 16,
   },
   cafeName: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#333',
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  locationLabel: {
+    fontSize: 16,
+    color: '#666',
   },
   cafeLocation: {
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });
 
